@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class AdvancedSorts {
+public class AdvancedSorts { 
 
     /**
      * Implement quicksort using LinkedList only! Usage of anything but LinkedList will result in failing the assignment!
@@ -22,21 +22,25 @@ public class AdvancedSorts {
      * @param <E>
      * @return
      */
-    public static <E extends Comparable<E>> E[] quickSort(E[] unsorted) { 
-        shuffle(unsorted);
-        E[] sortedArray;
-        sortedArray = (E[]) sort(unsorted, 0, unsorted.length - 1);
-      
-        return sortedArray;
+    public static <E extends Comparable<E>> E[] quickSort(E[] unsorted) {
+        Player[] players = new Player[unsorted.length];
+        sort(unsorted);
+        return unsorted;
     }
     
+  public static void sort(Comparable[] a) {
+        shuffle(a);
+        sort(a, 0, a.length - 1);
+        assert isSorted(a);
+    }
+
     // quicksort the subarray from a[lo] to a[hi]
-    private static Comparable[] sort(Comparable[] a, int lo, int hi) { 
-        if (hi <= lo) return a;
+    private static void sort(Comparable[] a, int lo, int hi) { 
+        if (hi <= lo) return;
         int j = partition(a, lo, hi);
         sort(a, lo, j-1);
         sort(a, j+1, hi);
-        return a;
+        assert isSorted(a, lo, hi);
     }
 
     // partition the subarray a[lo..hi] so that a[lo..j-1] <= a[j] <= a[j+1..hi]
@@ -100,13 +104,13 @@ public class AdvancedSorts {
    /***************************************************************************
     *  Helper sorting functions.
     ***************************************************************************/
-
+    
     // is v < w ?
     private static boolean less(Comparable v, Comparable w) {
         if (v == w) return false;   // optimization when reference equals
         return v.compareTo(w) < 0;
     }
-
+        
     // exchange a[i] and a[j]
     private static void exch(Object[] a, int i, int j) {
         Object swap = a[i];
@@ -115,26 +119,37 @@ public class AdvancedSorts {
     }
 
 
+   /***************************************************************************
+    *  Check if array is sorted - useful for debugging.
+    ***************************************************************************/
+    private static boolean isSorted(Comparable[] a) {
+        return isSorted(a, 0, a.length - 1);
+    }
+
     private static boolean isSorted(Comparable[] a, int lo, int hi) {
         for (int i = lo + 1; i <= hi; i++)
             if (less(a[i], a[i-1])) return false;
         return true;
     }
-    
-     public static void shuffle(Object[] ar) {
 
-        Random rnd = ThreadLocalRandom.current();
-        for (int i = ar.length - 1; i > 0; i--)
-        {
-          int index = rnd.nextInt(i + 1);
-          // Simple swap
-          Object a = ar[index];
-          ar[index] = ar[i];
-          ar[i] = a;
-        }
-    }
+     /**
+     * Rearranges the elements of the specified array in uniformly random order.
+     *
+     * @param ar
+     * @throws IllegalArgumentException if {@code a} is {@code null}
+     */
+    public static void shuffle(Object[] ar) {
+
+          Random rnd = ThreadLocalRandom.current();
+          for (int i = ar.length - 1; i > 0; i--)
+          {
+            int index = rnd.nextInt(i + 1);
+            // Simple swap
+            Object a = ar[index];
+            ar[index] = ar[i];
+            ar[i] = a;
+          }
+      }
 
             
 }
-  
-

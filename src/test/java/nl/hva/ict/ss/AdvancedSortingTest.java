@@ -38,7 +38,7 @@ public class AdvancedSortingTest {
         System.out.flush();
 
         // Try to get Java read for steady measurements
-        //AdvancedSorts.quickSort(new LinkedList<Player>());
+        AdvancedSorts.quickSort(new LinkedList<Player>());
         AdvancedSorts.quickSort(new Player[0]);
     }
 
