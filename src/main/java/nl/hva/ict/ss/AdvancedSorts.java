@@ -65,36 +65,35 @@ public class AdvancedSorts {
         quickSort(unsorted, j + 1, high);
     }
 
+    // Pick a pivot and sort all the items in the object left or right of the pivot
     private static int partition(Comparable[] a, int low, int high) {
         int i = low;
         int j = high + 1;
+        // create pivot from first index
         Comparable v = a[low];
         while (true) {
-            // find item on low to swap
+
             while (less(a[++i], v)) {
                 if (i == high) break;
             }
 
-            // find item on high to swap
             while (less(v, a[--j])) {
-                if (j == low) break;      // redundant since a[low] acts as sentinel
+                if (j == low) break;
             }
 
-            // check if pointers cross
             if (i >= j) break;
 
             exch(a, i, j);
         }
 
-        // put partitioning item v at a[j]
         exch(a, low, j);
 
-        // now, a[low .. j-1] <= a[j] <= a[j+1 .. high]
         return j;
     }
 
+    // check if v is less then w 
     private static boolean less(Comparable v, Comparable w) {
-        if (v == w) return false;   // optimization when reference equals
+        if (v == w) return false;
         return v.compareTo(w) < 0;
     }
 
@@ -105,19 +104,13 @@ public class AdvancedSorts {
         a[j] = swap;
     }
 
-    // exchange a[i] and a[j]
-    private static <E extends Comparable<E>> void exch(LinkedList<E> a, int i, int j) {
-        E swap = a.get(i);
-        a.set(i, a.get(j));
-        a.set(j, swap);
-    }
-
-    static <E extends Comparable<E>> void shuffle(E[] ar) {
-        // If running on Java 6 or older, use `new Random()` on RHS here
+    // Shuffle the array
+    static <E extends Comparable<E>> void shuffle(E[] ar) {      
         Random rnd = ThreadLocalRandom.current();
         for (int i = ar.length - 1; i > 0; i--) {
+           
             int index = rnd.nextInt(i + 1);
-            // Simple swap
+          
             E a = ar[index];
             ar[index] = ar[i];
             ar[i] = a;
